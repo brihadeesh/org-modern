@@ -90,10 +90,10 @@ Set to nil to disable styling the headlines."
 
 (defcustom org-modern-timestamp t
   "Prettify time stamps, e.g. <2022-03-01>.
-Set to nil to disable styling the time stamps. In order to use custom
+Set to nil to disable styling the time stamps.  In order to use custom
 timestamps, the format should be (DATE . TIME) where DATE is the format
-for date, and TIME is the format for time. DATE and TIME must be
-surrounded with space. For the syntax, refer to `format-time-string'."
+for date, and TIME is the format for time.  DATE and TIME must be
+surrounded with space.  For the syntax, refer to `format-time-string'."
   :type '(choice
           (const :tag "Disable time stamp styling" nil)
           (const :tag "Enable timestamp styling" t)
@@ -137,21 +137,21 @@ Set to nil to disable styling checkboxes."
   "Prettify horizontal rulers."
   :type 'boolean)
 
-(defcustom org-modern-todo t
-  "Prettify todo keywords, see `org-todo-keywords'."
-  :type 'boolean)
+;; (defcustom org-modern-todo t
+;;   "Prettify todo keywords, see `org-todo-keywords'."
+;;   :type 'boolean)
 
-(defcustom org-modern-todo-faces nil
-  "Faces for todo keywords.
-This is an alist, with todo keywords in the car
-and faces in the cdr. Example:
+;; (defcustom org-modern-todo-faces nil
+;;   "Faces for todo keywords.
+;; This is an alist, with todo keywords in the car
+;; and faces in the cdr. Example:
 
-  (setq org-modern-todo-faces
-    (quote ((\"TODO\" :background \"red\"
-                    :foreground \"yellow\"))))"
-  :type '(repeat
-          (cons (string :tag "Keyword")
-                (sexp   :tag "Face   "))))
+;;   (setq org-modern-todo-faces
+;;     (quote ((\"TODO\" :background \"red\"
+;;                     :foreground \"yellow\"))))"
+;;   :type '(repeat
+;;           (cons (string :tag "Keyword")
+;;                 (sexp   :tag "Face   "))))
 
 (defcustom org-modern-tag t
   "Prettify tags in headlines, e.g., :tag1:tag2:."
@@ -207,17 +207,17 @@ You can specify a font `:family'. The font families `Iosevka', `Hack' and
     (t :foreground "white"))
   "Face used for tag labels.")
 
-(defface org-modern-done
-  '((default :inherit org-modern-label)
-    (((background light)) :background "gray90" :foreground "black")
-    (t :background "gray20" :foreground "white"))
-  "Face used for done labels.")
+;; (defface org-modern-done
+;;   '((default :inherit org-modern-label)
+;;     (((background light)) :background "gray90" :foreground "black")
+;;     (t :background "gray20" :foreground "white"))
+;;   "Face used for done labels.")
 
-(defface org-modern-todo
-  ;; `:inverse-video' to use todo foreground as label background
-  '((t :inherit (org-todo org-modern-label)
-       :weight semibold :inverse-video t))
-  "Face used for todo labels.")
+;; (defface org-modern-todo
+;;   ;; `:inverse-video' to use todo foreground as label background
+;;   '((t :inherit (org-todo org-modern-label)
+;;        :weight semibold :inverse-video t))
+;;   "Face used for todo labels.")
 
 (defface org-modern-priority
   ;; `:inverse-video' to use priority foreground as label background
@@ -320,25 +320,25 @@ You can specify a font `:family'. The font families `Iosevka', `Hack' and
         (setq colon (point))
         (add-text-properties (1- colon) colon colon-props)))))
 
-(defun org-modern--todo ()
-  "Prettify headline todo keywords."
-  (let ((todo (match-string 1))
-        (beg (match-beginning 1))
-        (end (match-end 1)))
-    (put-text-property
-     beg (1+ beg)
-     'display (format #(" %c" 1 3 (cursor t)) (char-after beg)))
-    (put-text-property
-     (1- end) end
-     'display (format "%c " (char-before end)))
-    (put-text-property
-     beg end
-     'face
-     (if-let (face (cdr (assoc todo org-modern-todo-faces)))
-         `(:inherit (,face org-modern-label))
-       (if (member todo org-done-keywords)
-           'org-modern-done
-         'org-modern-todo)))))
+;; (defun org-modern--todo ()
+;;   "Prettify headline todo keywords."
+;;   (let ((todo (match-string 1))
+;;         (beg (match-beginning 1))
+;;         (end (match-end 1)))
+;;     (put-text-property
+;;      beg (1+ beg)
+;;      'display (format #(" %c" 1 3 (cursor t)) (char-after beg)))
+;;     (put-text-property
+;;      (1- end) end
+;;      'display (format "%c " (char-before end)))
+;;     (put-text-property
+;;      beg end
+;;      'face
+;;      (if-let (face (cdr (assoc todo org-modern-todo-faces)))
+;;          `(:inherit (,face org-modern-label))
+;;        (if (member todo org-done-keywords)
+;;            'org-modern-done
+;;          'org-modern-todo)))))
 
 (defun org-modern--timestamp ()
   "Prettify timestamps."
@@ -500,14 +500,14 @@ You can specify a font `:family'. The font families `Iosevka', `Hack' and
            (1 'org-modern-priority t)
            (2 '(face nil display " "))
            (3 '(face nil display " ")))))
-      (when org-modern-todo
-        `((,(format "^\\*+ +%s " (regexp-opt org-todo-keywords-1 t)) (0 (org-modern--todo)))))
-      (when org-modern-keyword
-        `(("^[ \t]*\\(#\\+\\)\\S-" 1
-           '(face nil
-                  ,@(if (stringp org-modern-keyword)
-                       `(display ,org-modern-keyword)
-                     '(invisible t))))))
+      ;; (when org-modern-todo
+      ;;   `((,(format "^\\*+ +%s " (regexp-opt org-todo-keywords-1 t)) (0 (org-modern--todo)))))
+      ;; (when org-modern-keyword
+      ;;   `(("^[ \t]*\\(#\\+\\)\\S-" 1
+      ;;      '(face nil
+      ;;             ,@(if (stringp org-modern-keyword)
+      ;;                  `(display ,org-modern-keyword)
+      ;;                '(invisible t))))))
       (when org-modern-checkbox
         '(("^[ \t]*\\(?:[-+*]\\|[0-9]+[.)]\\)[ \t]+\\(\\[[ X-]\\]\\)[ \t]"
            (0 (org-modern--checkbox)))))
